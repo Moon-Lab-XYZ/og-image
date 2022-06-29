@@ -1,7 +1,5 @@
 
 import { readFileSync } from 'fs';
-import { marked } from 'marked';
-import { sanitizeHtml } from './sanitizer';
 import { ParsedRequest } from './types';
 const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
@@ -9,18 +7,9 @@ const emojify = (text: string) => twemoji.parse(text, twOptions);
 
 const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
 const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
-const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
+const bungee = readFileSync(`${__dirname}/../_fonts/Bungee-Regular.woff2`).toString('base64');
 
-function getCss(theme: string, fontSize: string) {
-    let background = 'white';
-    let foreground = 'black';
-    let radial = 'lightgray';
-
-    if (theme === 'dark') {
-        background = 'black';
-        foreground = 'white';
-        radial = 'dimgray';
-    }
+function getCss() {
     return `
     @font-face {
         font-family: 'Inter';
@@ -37,32 +26,15 @@ function getCss(theme: string, fontSize: string) {
     }
 
     @font-face {
-        font-family: 'Vera';
+        font-family: 'Bungee';
         font-style: normal;
         font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${mono})  format("woff2");
-      }
+        src: url(data:font/woff2;charset=utf-8;base64,${bungee})  format("woff2");
+    }
 
     body {
-        background: ${background};
-        background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);
-        background-size: 100px 100px;
+        width: 100vw;
         height: 100vh;
-        display: flex;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
-    }
-
-    code {
-        color: #D400FF;
-        font-family: 'Vera';
-        white-space: pre-wrap;
-        letter-spacing: -5px;
-    }
-
-    code:before, code:after {
-        content: '\`';
     }
 
     .logo-wrapper {
@@ -77,70 +49,113 @@ function getCss(theme: string, fontSize: string) {
         margin: 0 75px;
     }
 
-    .plus {
-        color: #BBB;
-        font-family: Times New Roman, Verdana;
-        font-size: 100px;
-    }
-
-    .spacer {
-        margin: 150px;
-    }
-
-    .emoji {
-        height: 1em;
-        width: 1em;
-        margin: 0 .05em 0 .1em;
-        vertical-align: -0.1em;
-    }
-    
     .heading {
-        font-family: 'Inter', sans-serif;
-        font-size: ${sanitizeHtml(fontSize)};
+        font-family: 'Bungee', serif;
+        font-size: 100px;
         font-style: normal;
-        color: ${foreground};
+        color: black;
         line-height: 1.8;
-    }`;
+    }
+
+    .header {
+        display: flex;
+        border: 0;
+        border-color: #F0F0F0;
+        border-bottom-width: 10px;
+        border-style: solid;
+        align-items: center;
+        padding-left: 20px;
+        padding-right: 50px;
+        justify-content: space-between;
+    }
+
+    .header-logo {
+        display: flex;
+        align-items: center;
+    }
+
+    .btn {
+        font-family: 'Inter', sans-serif;
+        font-size: 60px;
+        padding: 10px 20px;
+        border-color: black;
+        border-width: 5px;
+        border-style: solid;
+        border-radius: 20px;
+    }
+
+    .body {
+        font-family: 'Inter', sans-serif;
+        padding: 50px 50px;
+    }
+
+    .excerpt {
+        font-size: 70px;
+        line-height: 90px;
+        white-space: pre-wrap;
+        display: -webkit-box;
+        -webkit-line-clamp: 6;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .about-author {
+        display: flex;
+        align-items: center;
+        margin-bottom: 50px
+    }
+
+    .about-author-img {
+        width: 200px;
+        border-radius: 20px;
+        margin-right: 20px;
+    }
+
+    .author-name {
+        font-size: 60px;
+        font-family: 'Bungee', serif;
+    }
+
+    .author-username {
+        font-size: 50px;
+        color: #A6A6A6;
+    }
+
+    `;
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+    const { excerpt, authorName, authorUsername, authorImage } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(theme, fontSize)}
+        ${getCss()}
     </style>
     <body>
-        <div>
-            <div class="spacer">
-            <div class="logo-wrapper">
-                ${images.map((img, i) =>
-                    getPlusSign(i) + getImage(img, widths[i], heights[i])
-                ).join('')}
+        <div class="header">
+            <div class="header-logo">
+                <img src="https://storage.googleapis.com/moon-lab/pearl.svg"></img>
+                <div class="heading">Bitpearl</div>
             </div>
-            <div class="spacer">
-            <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
-            )}
+            <div class="btn">Read on clean, ad-free page</div>
+        </div>
+        <div class="body">
+            <div class="about-author">
+                <img class="about-author-img" src="${authorImage}"></img>
+                <div class="about-author-text">
+                    <div class="author-name">
+                        ${emojify(authorName.toString())}
+                    </div>
+                    <div class="author-username">
+                        @${authorUsername}
+                    </div>
+                </div>
             </div>
+            <div class="excerpt">${emojify(excerpt.toString())}</div>
         </div>
     </body>
 </html>`;
-}
-
-function getImage(src: string, width ='auto', height = '225') {
-    return `<img
-        class="logo"
-        alt="Generated Image"
-        src="${sanitizeHtml(src)}"
-        width="${sanitizeHtml(width)}"
-        height="${sanitizeHtml(height)}"
-    />`
-}
-
-function getPlusSign(i: number) {
-    return i === 0 ? '' : '<div class="plus">+</div>';
 }
