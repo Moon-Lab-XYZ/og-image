@@ -94,7 +94,7 @@ function getCss() {
         line-height: 90px;
         white-space: pre-wrap;
         display: -webkit-box;
-        -webkit-line-clamp: 6;
+        -webkit-line-clamp: 5;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
