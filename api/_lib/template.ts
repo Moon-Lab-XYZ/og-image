@@ -64,8 +64,8 @@ function getCss() {
         border-bottom-width: 10px;
         border-style: solid;
         align-items: center;
-        padding-left: 20px;
-        padding-right: 50px;
+        padding-left: 50px;
+        padding-right: 80px;
         justify-content: space-between;
     }
 
@@ -82,11 +82,12 @@ function getCss() {
         border-width: 5px;
         border-style: solid;
         border-radius: 20px;
+        box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
     }
 
     .body {
         font-family: 'Inter', sans-serif;
-        padding: 50px 50px;
+        padding: 50px 80px;
     }
 
     .excerpt {
