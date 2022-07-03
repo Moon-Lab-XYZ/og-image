@@ -115,11 +115,19 @@ function getCss() {
     .author-name {
         font-size: 60px;
         font-family: 'Bungee', serif;
+        max-width: 60%;
     }
 
     .author-username {
         font-size: 50px;
         color: #A6A6A6;
+    }
+
+    .emoji {
+        height: 1em;
+        width: 1em;
+        margin: 0 .05em 0 .1em;
+        vertical-align: -0.1em;
     }
 
     `;
