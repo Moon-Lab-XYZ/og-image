@@ -6,4 +6,7 @@ export interface ParsedRequest {
     authorName: string | string[];
     authorUsername: string | string[];
     authorImage: string | string[];
+    perlerName: string | string[];
+    perlerUsername: string | string[];
+    perlerImage: string | string[];
 }
