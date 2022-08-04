@@ -154,8 +154,7 @@ function getCss() {
     .via {
         display: flex;
         align-items: center;
-        width: 25%;
-        justify-content: end;
+        width: 290px;
         align-self: start;
     }
 
