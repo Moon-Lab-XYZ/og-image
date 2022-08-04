@@ -81,6 +81,7 @@ function getCss() {
         border-color: #F0F0F0;
         border-width: 4px;
         border-style: solid;
+        position: relative;
     }
 
     .excerpt {
@@ -131,6 +132,8 @@ function getCss() {
     .perl-points {
         display: flex;
         align-items: center;
+        justify-self: center;
+        margin-bottom: 40px;
     }
 
     .perl-points-number {
@@ -156,6 +159,7 @@ function getCss() {
         align-items: center;
         width: 290px;
         align-self: start;
+        margin-top: 20px;
     }
 
     .via-text {
@@ -170,7 +174,7 @@ function getCss() {
     .clam-anchor-container {
         position: absolute;
         bottom: 0;
-        right: 40px;
+        right: 0;
     }
 
     `;
@@ -184,7 +188,8 @@ export function getHtml(parsedReq: ParsedRequest) {
         authorImage,
         perlerImage,
         perlerName,
-        perlerUsername
+        perlerUsername,
+        perlPoints
     } = parsedReq;
     return `<!DOCTYPE html>
 <html>
@@ -209,7 +214,7 @@ export function getHtml(parsedReq: ParsedRequest) {
             </div>
             <div class="perl-points">
                 <img class="perl-points-img" src="https://storage.googleapis.com/moon-lab/perl.png"></img>
-                <div class="perl-points-number">1,869</div>
+                <div class="perl-points-number">${perlPoints}</div>
             </div>
         </div>
         <div class="body">
@@ -231,9 +236,9 @@ export function getHtml(parsedReq: ParsedRequest) {
                 </div>
             </div>
             <div class="excerpt">${emojify(excerpt.toString())}</div>
-        </div>
-        <div class="clam-anchor-container">
-            <img class="clam-anchor-img" src="https://storage.googleapis.com/moon-lab/perl-clam.png"></img>
+            <div class="clam-anchor-container">
+                <img class="clam-anchor-img" src="https://storage.googleapis.com/moon-lab/perl-clam.png"></img>
+            </div>
         </div>
     </body>
 </html>`;

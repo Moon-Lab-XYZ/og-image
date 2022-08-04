@@ -9,4 +9,5 @@ export interface ParsedRequest {
     perlerName: string | string[];
     perlerUsername: string | string[];
     perlerImage: string | string[];
+    perlPoints: string | string[];
 }

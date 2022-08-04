@@ -12,7 +12,8 @@ export function parseRequest(req: IncomingMessage) {
         perlerImage,
         perlerName,
         perlerUsername,
-        excerpt
+        excerpt,
+        perlPoints
     } = (query || {});
 
     const parsedRequest: ParsedRequest = {
@@ -24,6 +25,7 @@ export function parseRequest(req: IncomingMessage) {
         authorName: authorName!,
         authorUsername: authorUsername!,
         excerpt: excerpt!,
+        perlPoints: perlPoints!
     };
 
     return parsedRequest;
