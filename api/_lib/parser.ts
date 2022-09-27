@@ -17,7 +17,7 @@ export function parseRequest(req: IncomingMessage) {
     } = (query || {});
 
     const parsedRequest: ParsedRequest = {
-        fileType: 'jpeg',
+        fileType: 'png',
         perlerImage: perlerImage!,
         perlerName: perlerName!,
         perlerUsername: perlerUsername!,
