@@ -47,14 +47,6 @@ function getCss() {
 
 export function getHtml(parsedReq: ParsedRequest) {
     const {
-        excerpt,
-        authorName,
-        authorUsername,
-        authorImage,
-        perlerImage,
-        perlerName,
-        perlerUsername,
-        perlPoints
     } = parsedReq;
     return `<!DOCTYPE html>
 <html>
@@ -75,6 +67,7 @@ export function getHtml(parsedReq: ParsedRequest) {
                 colors: {
                     'perl-purple': '#9059C4',
                     'perl-gray': '#F2F2F2',
+                    'perl-light-gray': '#474747',
                 }
             }
         }
@@ -133,7 +126,7 @@ export function getHtml(parsedReq: ParsedRequest) {
             <div>
                 <div class="w-[540px] h-[35vh]">
                     <div class="w-[540px] h-[50px] bg-perl-purple px-4 flex items-center">
-                        <div class="font-bungee uppercase text-white text-3xl flex items-center">Collected By</div>
+                        <div class="font-bungee uppercase text-white text-3xl flex items-center">Recent Collectors</div>
                     </div>
                     <div class="flex gap-x-4 w-full items-center py-6">
                         <div class="flex gap-x-4 w-[90px] h-[90px] items-center justify-center rounded-full bg-white">
@@ -148,12 +141,15 @@ export function getHtml(parsedReq: ParsedRequest) {
                         <div class="flex gap-x-4 w-[90px] h-[90px] items-center justify-center rounded-full bg-white">
                             <img class="rounded-full w-[80px] h-[80px]" src="https://res.cloudinary.com/merkle-manufactory/image/fetch/c_fill,f_png,w_256/https://img.seadn.io/files/06496571b614d3a4b424f2b1f2402a8f.png?h=1024&w=1024&auto=format"></img>
                         </div>
-                        <div class="font-bungee text-3xl">+42</div>
+                        <div class="font-bungee text-3xl text-perl-light-gray">+42</div>
                     </div>
                 </div>
                 <div class="w-[540px] h-[50vh]">
                     <div class="w-[540px] h-[50px] bg-perl-purple px-4 flex items-center">
                         <div class="font-bungee uppercase text-white text-3xl flex items-center">Badges</div>
+                    </div>
+                    <div class="flex gap-x-4 w-full items-center">
+                        <img class="ml-[-30px] w-[150px] h-[150px]" src="https://storage.googleapis.com/moon-lab/clam-56.png"></img>
                     </div>
                 </div>
             </div>
