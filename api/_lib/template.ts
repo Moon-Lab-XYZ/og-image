@@ -46,7 +46,6 @@ function getCss() {
     body {
         width: 100vw;
         height: 100vh;
-        font-family: 'Inter', sans-serif;
     }
     `;
 }
@@ -95,6 +94,7 @@ export async function getHtml(parsedReq: ParsedRequest) {
             extend: {
                 fontFamily: {
                     'bungee': ['Bungee'],
+                    'inter': ['Inter'],
                 },
                 colors: {
                     'perl-purple': '#9059C4',
@@ -105,7 +105,7 @@ export async function getHtml(parsedReq: ParsedRequest) {
         }
         }
     </script>
-    <body class="bg-cover bg-[url('https://storage.googleapis.com/moon-lab/perl-bg.png')]">
+    <body class="font-inter bg-cover bg-[url('https://storage.googleapis.com/moon-lab/perl-bg.png')]">
         <div class="grid px-12 py-8 grid-cols-2 grid-rows-1 gap-x-8">
             <div class="bg-white w-[100%] h-[90vh] p-4">
                 <div class="flex items-start justify-between mb-4">
