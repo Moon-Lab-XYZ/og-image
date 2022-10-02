@@ -2,12 +2,12 @@
 import { readFileSync } from 'fs';
 import got from 'got'
 import * as dotenv from 'dotenv';
-import twemoji from 'twemoji';
+//import twemoji from 'twemoji';
 
 import { ParsedRequest } from './types';
 
-const twOptions = { folder: 'svg', ext: '.svg' };
-const emojify = (text: string) => twemoji.parse(text, twOptions);
+// const twOptions = { folder: 'svg', ext: '.svg', size: "36x36" };
+// const emojify = (text: string) => twemoji.parse(text, twOptions);
 
 const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
 const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
@@ -112,8 +112,8 @@ export async function getHtml(parsedReq: ParsedRequest) {
                     <div class="flex items-center">
                         <img class="rounded-full object-cover h-[55px] w-[55px] mr-2" src="${user.farcaster_avatar}"/>
                         <div>
-                            <div class="text-xl font-bold">${emojify(user.farcaster_display_name)}</div>
-                            <div class="opacity-60">@${emojify(user.username ? user.username : user.farcaster_username)}</div>
+                            <div class="text-xl font-bold">${user.farcaster_display_name}</div>
+                            <div class="opacity-60">@${user.username ? user.username : user.farcaster_username}</div>
                         </div>
                     </div>
                     <div>
@@ -123,18 +123,18 @@ export async function getHtml(parsedReq: ParsedRequest) {
                         </div>
                     </div>
                 </div>
-                <div class="mb-6">${emojify(user.farcaster_bio)}</div>
+                <div class="mb-6">${user.farcaster_bio}</div>
                 <div class="mb-4 bg-perl-gray py-2 px-4 mr-5 flex items-center w-full">
                     <Image width="13px" height="13px" src="https://storage.googleapis.com/moon-lab/search.png"/>
-                    <input id="search" class="bg-perl-gray ml-2 w-full" placeholder="Search ${emojify(user.farcaster_display_name)}'s perls"></input>
+                    <input id="search" class="bg-perl-gray ml-2 w-full" placeholder="Search ${user.farcaster_display_name}'s perls"></input>
                 </div>
                 <div class="border-2 border-perl-gray p-4">
                     <div class="flex justify-between items-center">
                         <div class="flex items-center">
                             <img class="rounded-full w-[55px] h-[55px] object-cover" src="${lastPerlPayload.meta.avatar}"/>
                             <div class="ml-2">
-                                <div class="font-bold">${emojify(lastPerlPayload.meta.displayName)}</div>
-                                <div class="opacity-60">@${emojify(lastPerlPayload.body.username)}</div>
+                                <div class="font-bold">${lastPerlPayload.meta.displayName}</div>
+                                <div class="opacity-60">@${lastPerlPayload.body.username}</div>
                             </div>
                         </div>
                         <div class="flex items-center">
@@ -142,19 +142,19 @@ export async function getHtml(parsedReq: ParsedRequest) {
                                 <Image width="14px" height="14px" src="https://storage.googleapis.com/moon-lab/farcaster.png" />
                             </div>
                         </div>
-                        <div class="mt-4 mb-4 overflow-clip whitespace-pre-line break-words">${emojify(lastPerlPayload.body.data.text)}</div>
+                        <div class="mt-4 mb-4 overflow-clip whitespace-pre-line break-words">${lastPerlPayload.body.data.text}</div>
                 </div>
             </div>
             <div>
                 <div class="w-[540px] h-[35vh]">
-                    <div class="w-[540px] h-[50px] bg-perl-purple px-4 flex items-center">
-                        <div class="font-bungee uppercase text-white text-3xl flex items-center">@${emojify(user.username ? user.username : user.farcaster_username)}'s collectors</div>
+                    <div class="w-[540px] max-h-[90px] bg-perl-purple px-4 py-2 flex items-center">
+                        <div class="font-bungee uppercase text-white text-3xl flex items-center">@${user.username ? user.username : user.farcaster_username}'s collectors</div>
                     </div>
                     <div class="flex gap-x-5 w-full items-center py-6">${collectorsHtml}</div>
                 </div>
                 <div class="w-[540px] h-[50vh]">
-                    <div class="w-[540px] h-[50px] bg-perl-purple px-4 flex items-center">
-                        <div class="font-bungee uppercase text-white text-3xl flex items-center">@${emojify(user.username ? user.username : user.farcaster_username)}'s Badges</div>
+                    <div class="w-[540px] max-h-[90px] bg-perl-purple px-4 py-2 flex items-center">
+                        <div class="font-bungee uppercase text-white text-3xl flex items-center">@${user.username ? user.username : user.farcaster_username}'s Badges</div>
                     </div>
                     <div class="grid grid-cols-5 grid-rows-2 w-full items-center py-6 gap-x-2 gap-y-8">
                         <img class="w-[90px] h-[90px]" src="https://storage.googleapis.com/moon-lab/clam-badges/56.png"></img>
