@@ -67,16 +67,18 @@ export async function getHtml(parsedReq: ParsedRequest) {
 
     //let badgesHtml = '';
 
-    for (const collector of collectors) {
-        if (previouslyAddedCollectors.includes(collector.farcaster_username)) {
-            continue;
+    if (collectors) {
+        for (const collector of collectors) {
+            if (previouslyAddedCollectors.includes(collector.farcaster_username)) {
+                continue;
+            }
+            previouslyAddedCollectors.push(collector.farcaster_username);
+            collectorsHtml = collectorsHtml.concat(`
+                <div class="flex w-[80px] h-[80px] items-center justify-center rounded-full bg-white">
+                    <img class="rounded-full w-[70px] h-[70px]" src="${collector.farcaster_avatar}"></img>
+                </div>
+            `)
         }
-        previouslyAddedCollectors.push(collector.farcaster_username);
-        collectorsHtml = collectorsHtml.concat(`
-            <div class="flex w-[80px] h-[80px] items-center justify-center rounded-full bg-white">
-                <img class="rounded-full w-[70px] h-[70px]" src="${collector.farcaster_avatar}"></img>
-            </div>
-        `)
     }
 
     return `<!DOCTYPE html>
