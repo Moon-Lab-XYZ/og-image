@@ -56,7 +56,12 @@ export async function getHtml(parsedReq: ParsedRequest) {
         perlId,
     } = parsedReq;
 
-    const ogImageMetadata: any = await got(`${process.env.API_BASE_URL}user-og-image-metadata?userId=${userId}&perlId=${perlId}`).json();
+    let urlToRequest = `${process.env.API_BASE_URL}user-og-image-metadata?userId=${userId}&perlId=${perlId}`;
+    if (!perlId) {
+        urlToRequest = `${process.env.API_BASE_URL}user-og-image-metadata?userId=${userId}`;
+    }
+
+    const ogImageMetadata: any = await got(urlToRequest).json();
 
     const user = ogImageMetadata.user;
     const lastPerlPayload = ogImageMetadata.lastPerl.payload;
@@ -64,9 +69,6 @@ export async function getHtml(parsedReq: ParsedRequest) {
 
     let collectorsHtml = '';
     let previouslyAddedCollectors: any[] = [];
-
-    //let badgesHtml = '';
-
     if (collectors) {
         for (const collector of collectors) {
             if (previouslyAddedCollectors.includes(collector.farcaster_username)) {
@@ -79,6 +81,15 @@ export async function getHtml(parsedReq: ParsedRequest) {
                 </div>
             `)
         }
+    } else {
+        collectorsHtml = `<div class="text-lg px-4 w-full text-center">No one has collected from @${user.farcaster_username} yet</div>`;
+    }
+
+    let badgesHtml = '';
+    if (user.username) {
+        badgesHtml += '<img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/clam-badges/56.png"></img>';
+    } else {
+        badgesHtml += '<img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>';
     }
 
     return `<!DOCTYPE html>
@@ -161,7 +172,7 @@ export async function getHtml(parsedReq: ParsedRequest) {
                             <div class="font-bungee uppercase text-3xl flex items-center">@${user.username ? user.username : user.farcaster_username}'s Badges</div>
                         </div>
                         <div class="grid grid-cols-5 grid-rows-2 w-full items-center py-6 gap-x-2 gap-y-8">
-                            <img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/clam-badges/56.png"></img>
+                            ${badgesHtml}
                             <img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>
                             <img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>
                             <img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>
