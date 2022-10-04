@@ -80,6 +80,9 @@ export async function getHtml(parsedReq: ParsedRequest) {
                     <img class="rounded-full w-[70px] h-[70px]" src="${collector.farcaster_avatar}"></img>
                 </div>
             `)
+            if (previouslyAddedCollectors.length == 5) {
+                break;
+            }
         }
     } else {
         collectorsHtml = `<div class="text-lg px-4 w-full text-center">No one has collected from @${user.farcaster_username} yet</div>`;
