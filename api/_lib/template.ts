@@ -2,12 +2,12 @@
 import { readFileSync } from 'fs';
 import got from 'got'
 import * as dotenv from 'dotenv';
-//import twemoji from 'twemoji';
+import twemoji from 'twemoji';
 
 import { ParsedRequest } from './types';
 
-// const twOptions = { folder: 'svg', ext: '.svg', size: "36x36" };
-// const emojify = (text: string) => twemoji.parse(text, twOptions);
+const twOptions = { folder: 'svg', ext: '.svg' };
+const emojify = (text: string) => twemoji.parse(text, twOptions);
 
 const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
 const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
@@ -46,6 +46,14 @@ function getCss() {
     body {
         width: 100vw;
         height: 100vh;
+    }
+
+    img.emoji {
+        display: inline;
+        height: 1em;
+        width: 1em;
+        margin: 0 .05em 0 .1em;
+        vertical-align: -0.2em;
     }
     `;
 }
@@ -130,7 +138,7 @@ export async function getHtml(parsedReq: ParsedRequest) {
                         <div class="flex items-center">
                             <img class="rounded-full object-cover h-[55px] w-[55px] mr-2" src="${user.farcaster_avatar}"/>
                             <div>
-                                <div class="text-xl font-bold">${user.farcaster_display_name}</div>
+                                <div class="text-xl font-bold">${emojify(user.farcaster_display_name)}</div>
                                 <div class="opacity-60">@${user.username ? user.username : user.farcaster_username}</div>
                             </div>
                         </div>
@@ -141,17 +149,17 @@ export async function getHtml(parsedReq: ParsedRequest) {
                             </div>
                         </div>
                     </div>
-                    <div class="mb-6">${user.farcaster_bio}</div>
+                    <div class="mb-6">${emojify(user.farcaster_bio)}</div>
                     <div class="mb-4 bg-perl-gray py-2 px-4 mr-5 flex items-center w-full">
                         <Image width="13px" height="13px" src="https://storage.googleapis.com/moon-lab/search.png"/>
-                        <input id="search" class="bg-perl-gray ml-2 w-full" placeholder="Search ${user.farcaster_display_name}'s perls"></input>
+                        <input id="search" class="bg-perl-gray ml-2 w-full" placeholder="Search ${user.farcaster_username}'s perls"></input>
                     </div>
                     <div class="border-2 border-perl-gray p-4">
                         <div class="flex justify-between items-center">
                             <div class="flex items-center">
                                 <img class="rounded-full w-[55px] h-[55px] object-cover" src="${lastPerlPayload.meta.avatar}"/>
                                 <div class="ml-2">
-                                    <div class="font-bold">${lastPerlPayload.meta.displayName}</div>
+                                    <div class="font-bold">${emojify(lastPerlPayload.meta.displayName)}</div>
                                     <div class="opacity-60">@${lastPerlPayload.body.username}</div>
                                 </div>
                             </div>
@@ -160,7 +168,7 @@ export async function getHtml(parsedReq: ParsedRequest) {
                                 <Image width="14px" height="14px" src="https://storage.googleapis.com/moon-lab/farcaster.png" />
                             </div>
                         </div>
-                        <div class="mt-4 mb-4 overflow-hidden whitespace-pre-line break-words h-[150px]">${lastPerlPayload.body.data.text}</div>
+                        <div class="mt-4 mb-4 overflow-hidden whitespace-pre-line break-words h-[150px]">${emojify(lastPerlPayload.body.data.text)}</div>
                     </div>
                 </div>
                 <div>
