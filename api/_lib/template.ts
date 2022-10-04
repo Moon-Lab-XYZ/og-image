@@ -160,7 +160,7 @@ export async function getHtml(parsedReq: ParsedRequest) {
                                 <Image width="14px" height="14px" src="https://storage.googleapis.com/moon-lab/farcaster.png" />
                             </div>
                         </div>
-                        <div class="mt-4 mb-4 overflow-clip whitespace-pre-line break-words h-[150px]">${lastPerlPayload.body.data.text}</div>
+                        <div class="mt-4 mb-4 overflow-hidden whitespace-pre-line break-words h-[150px]">${lastPerlPayload.body.data.text}</div>
                     </div>
                 </div>
                 <div>
