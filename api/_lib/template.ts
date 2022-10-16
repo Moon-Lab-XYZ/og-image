@@ -75,6 +75,22 @@ export async function getHtml(parsedReq: ParsedRequest) {
     const lastPerlPayload = ogImageMetadata.lastPerl.payload;
     const collectors = ogImageMetadata.collectors;
 
+    let text;
+    let avatar;
+    let username;
+    let displayName;
+    if (ogImageMetadata.lastPerl.type === 'twitter') {
+        text = lastPerlPayload.body.text;
+        avatar = lastPerlPayload.author.profile_image_url.replace('_normal', '_x96');
+        username = lastPerlPayload.author.username;
+        displayName = lastPerlPayload.author.name;
+    } else {
+        text = lastPerlPayload.body.data.text;
+        avatar = lastPerlPayload.meta.avatar;
+        username = lastPerlPayload.meta.username;
+        displayName = lastPerlPayload.meta.displayName;
+    }
+
     let collectorsHtml = '';
     let previouslyAddedCollectors: any[] = [];
     if (collectors) {
@@ -157,18 +173,18 @@ export async function getHtml(parsedReq: ParsedRequest) {
                     <div class="border-2 border-perl-gray p-4">
                         <div class="flex justify-between items-center">
                             <div class="flex items-center">
-                                <img class="rounded-full w-[55px] h-[55px] object-cover" src="${lastPerlPayload.meta.avatar}"/>
+                                <img class="rounded-full w-[55px] h-[55px] object-cover" src="${avatar}"/>
                                 <div class="ml-2">
-                                    <div class="font-bold">${emojify(lastPerlPayload.meta.displayName)}</div>
-                                    <div class="opacity-60">@${lastPerlPayload.body.username}</div>
+                                    <div class="font-bold">${emojify(displayName)}</div>
+                                    <div class="opacity-60">@${username}</div>
                                 </div>
                             </div>
                             <div class="flex items-center">
-                                <div class="mr-2 text-xs sm:text-sm opacity-80">via Farcaster</div>
-                                <Image width="14px" height="14px" src="https://storage.googleapis.com/moon-lab/farcaster.png" />
+                                <div class="mr-2 text-xs sm:text-sm opacity-80">via ${capitalizeFirstLetter(ogImageMetadata.lastPerl.type)}</div>
+                                <Image width="14px" height="14px" src="https://storage.googleapis.com/moon-lab/${ogImageMetadata.lastPerl.type}.png" />
                             </div>
                         </div>
-                        <div class="mt-4 mb-4 overflow-hidden whitespace-pre-line break-words h-[150px]">${emojify(lastPerlPayload.body.data.text)}</div>
+                        <div class="mt-4 mb-4 overflow-hidden whitespace-pre-line break-words h-[150px]">${emojify(text)}</div>
                     </div>
                 </div>
                 <div>
@@ -201,3 +217,8 @@ export async function getHtml(parsedReq: ParsedRequest) {
     </body>
 </html>`;
 }
+
+function capitalizeFirstLetter(string: any) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
