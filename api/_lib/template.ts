@@ -85,10 +85,18 @@ export async function getHtml(parsedReq: ParsedRequest) {
         username = lastPerlPayload.author.username;
         displayName = lastPerlPayload.author.name;
     } else {
-        text = lastPerlPayload.body.data.text;
-        avatar = lastPerlPayload.meta.avatar;
-        username = lastPerlPayload.meta.username;
-        displayName = lastPerlPayload.meta.displayName;
+        const isFarcasterV1 = lastPerlPayload.body ? true : false;
+        if (isFarcasterV1) {
+            text = lastPerlPayload.body.data.text;
+            avatar = lastPerlPayload.meta.avatar;
+            username = lastPerlPayload.meta.username;
+            displayName = lastPerlPayload.meta.displayName;
+        } else {
+            text = lastPerlPayload.text;
+            avatar = lastPerlPayload.author.pfp.url;
+            username = lastPerlPayload.author.username;
+            displayName = lastPerlPayload.author.displayName;
+        }
     }
 
     let collectorsHtml = '';
