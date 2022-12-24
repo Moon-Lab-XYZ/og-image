@@ -120,11 +120,20 @@ export async function getHtml(parsedReq: ParsedRequest) {
         collectorsHtml = `<div class="text-lg px-4 w-full text-center">No one has collected from @${user.farcaster_username} yet</div>`;
     }
 
+    let badgeRequestUrl = `${process.env.API_BASE_URL}user/${userId}/badges`;
+
+    const badges: any = await got(badgeRequestUrl).json();
+
     let badgesHtml = '';
-    if (user.username) {
-        badgesHtml += '<img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/clam-badges/56.png"></img>';
-    } else {
-        badgesHtml += '<img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>';
+    for (const badge of badges) {
+        badgesHtml += `<img class="w-[70px] h-[70px]" src=${badge.resource_url}></img>`;
+    }
+
+    const numPlaceholderBadges = 10 - badges.length;
+    const placeholderBadgeHtml = '<img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>';
+    let placeholderBadgesHtml = '';
+    for (let i = 0; i < numPlaceholderBadges; i++) {
+        placeholderBadgesHtml += placeholderBadgeHtml;
     }
 
     return `<!DOCTYPE html>
@@ -208,15 +217,7 @@ export async function getHtml(parsedReq: ParsedRequest) {
                         </div>
                         <div class="grid grid-cols-5 grid-rows-2 w-full items-center py-6 gap-x-2 gap-y-8">
                             ${badgesHtml}
-                            <img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>
-                            <img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>
-                            <img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>
-                            <img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>
-                            <img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>
-                            <img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>
-                            <img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>
-                            <img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>
-                            <img class="w-[70px] h-[70px]" src="https://storage.googleapis.com/moon-lab/badge-placeholder.png"></img>
+                            ${placeholderBadgesHtml}
                         </div>
                     </div>
                 </div>
